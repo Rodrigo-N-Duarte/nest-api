@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { UsersService } from '../services/users.service';
+import { UserService } from '../services/user.service';
 import { UserDTO } from '../dtos/userDTO';
 
 @Controller('user')
-export class UsersController {
-  constructor(private usersService: UsersService) {}
+export class UserController {
+  constructor(private usersService: UserService) {}
 
   @Post('create')
   async create(@Body() body: UserDTO): Promise<UserDTO> {
@@ -13,6 +13,7 @@ export class UsersController {
 
   @Get()
   async findAll(): Promise<UserDTO[]> {
-    return await this.usersService.findAll();
+    // return await this.usersService.findAll();
+    return;
   }
 }
