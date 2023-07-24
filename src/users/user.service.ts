@@ -1,11 +1,9 @@
 import {
   BadRequestException,
-  HttpException,
-  HttpStatus,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDTO, ResponseCreateUserDTO } from './models/dtos/userDTO';
+import { CreateUserDTO, UpdateUserDTO, UserDTO } from './models/dtos/userDTO';
 import { User } from './models/User';
 import { UserRepository } from './user.repository';
 
@@ -13,7 +11,7 @@ import { UserRepository } from './user.repository';
 export class UserService {
   constructor(private userRepository: UserRepository) {}
 
-  async createUser(body: CreateUserDTO): Promise<ResponseCreateUserDTO> {
+  async createUser(body: CreateUserDTO): Promise<UserDTO> {
     const { name, email, password } = body;
     const userAlreadyExists = await this.userRepository.findByEmail(email);
     this.validatePassword(password);
@@ -44,22 +42,47 @@ export class UserService {
       );
   }
 
-  async findAll(): Promise<ResponseCreateUserDTO[]> {
+  async findAll(): Promise<UserDTO[]> {
     const users: User[] = await this.userRepository.findAll();
     if (users.length > 0) {
-      const dtos: ResponseCreateUserDTO[] = users.map((user: User) => {
-        return new ResponseCreateUserDTO(user);
+      return users.map((user: User) => {
+        return new UserDTO(user);
       });
-      return dtos;
     }
     throw new NotFoundException();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<UserDTO> {
     const user: User = await this.userRepository.findOne(id);
     if (user) {
-      return new ResponseCreateUserDTO(user);
+      return new UserDTO(user);
     }
     throw new NotFoundException();
+  }
+
+  async update(id: number, body: UpdateUserDTO): Promise<UserDTO> {
+    const user: User = await this.userRepository.findOne(id);
+    if (user) {
+      if (body?.password) {
+        this.validatePassword(body.password);
+      }
+      try {
+        await this.userRepository.update(id, body);
+        const newUser: User = await this.userRepository.findOne(id);
+        return new UserDTO(newUser);
+      } catch (e) {
+        return e;
+      }
+    }
+    throw new BadRequestException('The user does not exists.');
+  }
+
+  async delete(id: number): Promise<UserDTO> {
+    const user: User = await this.userRepository.findOne(id);
+    if (user) {
+      await user.remove();
+      return new UserDTO(user);
+    }
+    throw new BadRequestException('The user does not exists.');
   }
 }

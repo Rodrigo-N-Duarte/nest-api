@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Exclude } from 'class-transformer';
 
 export abstract class CreateUserDTO {
@@ -13,14 +13,26 @@ export abstract class CreateUserDTO {
   password: string;
 }
 
-export class ResponseCreateUserDTO {
+export abstract class UpdateUserDTO {
+  @IsOptional()
+  @IsString()
+  name: string;
+  @IsOptional()
+  @IsEmail()
+  email: string;
+  @IsOptional()
+  @IsString()
+  password: string;
+}
+
+export class UserDTO {
   id: number;
   name: string;
   email: string;
   @Exclude()
   password: string;
 
-  constructor(partial: Partial<ResponseCreateUserDTO>) {
+  constructor(partial: Partial<UserDTO>) {
     Object.assign(this, partial);
   }
 }
