@@ -1,24 +1,12 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { TypeOrmDBConfig } from './db/db.config';
 import { UserModule } from './users/user.module';
-import { User } from './users/models/User';
 import { AuthMiddleware } from './middlewares/auth.middleware';
+import { TaskModule } from './task/task.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'nest-api',
-      entities: [User],
-      synchronize: true,
-    }),
-    UserModule,
-  ],
+  imports: [UserModule, TypeOrmDBConfig, TaskModule],
 })
 export class AppModule implements NestModule {
   constructor(private dataSource: DataSource) {}
