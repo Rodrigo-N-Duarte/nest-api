@@ -3,17 +3,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDTO, UpdateUserDTO, UserDTO } from './models/dtos/userDTO';
-import { User } from './models/User';
-import { UserRepository } from './user.repository';
+import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../models/dtos/userDTO';
+import { User } from '../models/User';
+import { BossRepository } from './boss.repository';
 
 @Injectable()
-export class UserService {
-  constructor(private userRepository: UserRepository) {}
+export class BossService {
+  constructor(private bossRepository: BossRepository) {}
 
   async createUser(body: CreateUserDTO): Promise<UserDTO> {
     const { name, email, password } = body;
-    const userAlreadyExists = await this.userRepository.findByEmail(email);
+    const userAlreadyExists = await this.bossRepository.findByEmail(email);
     this.validatePassword(password);
     if (!userAlreadyExists) {
       try {
@@ -42,10 +42,10 @@ export class UserService {
       );
   }
 
-  async findAll(): Promise<UserDTO[]> {
-    const users: User[] = await this.userRepository.findAll();
+  async findAll(): Promise<any[]> {
+    const users: any[] = await this.bossRepository.findAll();
     if (users.length > 0) {
-      return users.map((user: User) => {
+      return users.map((user: any) => {
         return new UserDTO(user);
       });
     }
@@ -53,7 +53,7 @@ export class UserService {
   }
 
   async findOne(id: number): Promise<UserDTO> {
-    const user: User = await this.userRepository.findOne(id);
+    const user: User = await this.bossRepository.findOne(id);
     if (user) {
       return new UserDTO(user);
     }
@@ -61,14 +61,14 @@ export class UserService {
   }
 
   async update(id: number, body: UpdateUserDTO): Promise<UserDTO> {
-    const user: User = await this.userRepository.findOne(id);
+    const user: User = await this.bossRepository.findOne(id);
     if (user) {
       if (body?.password) {
         this.validatePassword(body.password);
       }
       try {
-        await this.userRepository.update(id, body);
-        const newUser: User = await this.userRepository.findOne(id);
+        await this.bossRepository.update(id, body);
+        const newUser: User = await this.bossRepository.findOne(id);
         return new UserDTO(newUser);
       } catch (e) {
         return e;
@@ -78,7 +78,7 @@ export class UserService {
   }
 
   async delete(id: number): Promise<UserDTO> {
-    const user: User = await this.userRepository.findOne(id);
+    const user: User = await this.bossRepository.findOne(id);
     if (user) {
       await user.remove();
       return new UserDTO(user);

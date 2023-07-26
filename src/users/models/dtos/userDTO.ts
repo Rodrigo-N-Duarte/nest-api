@@ -1,5 +1,13 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
+import { User } from '../User';
+import { Employee } from '../Employee';
+import { Boss } from '../Boss';
+
+export enum UserRole {
+  EMPLOYEE = 'employee',
+  BOSS = 'boss',
+}
 
 export abstract class CreateUserDTO {
   @IsNotEmpty()
@@ -11,6 +19,8 @@ export abstract class CreateUserDTO {
   @IsNotEmpty()
   @IsString()
   password: string;
+  @IsString()
+  role: UserRole;
 }
 
 export abstract class UpdateUserDTO {
@@ -23,6 +33,8 @@ export abstract class UpdateUserDTO {
   @IsOptional()
   @IsString()
   password: string;
+  @IsString()
+  role: UserRole;
 }
 
 export class UserDTO {
@@ -31,8 +43,15 @@ export class UserDTO {
   email: string;
   @Exclude()
   password: string;
+  role: string;
 
   constructor(partial: Partial<UserDTO>) {
     Object.assign(this, partial);
+    const userDTO = new UserDTO(partial);
+    if (partial instanceof Employee) {
+      userDTO.role = 'employee';
+    } else if (partial instanceof Boss) {
+      userDTO.role = 'boss';
+    }
   }
 }

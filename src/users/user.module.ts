@@ -1,20 +1,23 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { UserController } from './user.controller';
-import { UserService } from './user.service';
-import { UserRepository } from './user.repository';
+import { BossService } from './boss/boss.service';
+import { BossRepository } from './boss/boss.repository';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { EmployeeService } from './employee/employee.service';
+import { EmployeeRepository } from './employee/employee.repository';
 
 @Module({
-  imports: [],
   controllers: [UserController],
   providers: [
-    UserService,
-    UserRepository,
+    BossService,
+    BossRepository,
+    EmployeeService,
+    EmployeeRepository,
     {
       provide: APP_INTERCEPTOR,
       useClass: ClassSerializerInterceptor,
     },
   ],
-  exports: [UserService],
+  exports: [BossService, EmployeeService],
 })
 export class UserModule {}
