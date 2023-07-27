@@ -3,8 +3,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../models/dtos/userDTO';
-import { User } from '../models/User';
+import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../user/dto/UserDTO';
+import { User } from '../user/models/User';
 import { BossRepository } from './boss.repository';
 
 @Injectable()

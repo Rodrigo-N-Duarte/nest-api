@@ -4,7 +4,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   use(req: FastifyRequest['raw'], res: FastifyReply['raw'], next: () => void) {
-    console.log('Validate JWT TOKEN for example');
+    console.log('Middleware to validate JWT TOKEN for example');
     next();
   }
 }

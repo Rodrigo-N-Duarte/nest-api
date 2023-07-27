@@ -3,9 +3,9 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../models/dtos/userDTO';
-import { Employee } from '../models/Employee';
-import { EmployeeRepository } from '../employee/employee.repository';
+import { CreateUserDTO, UpdateUserDTO, UserDTO } from '../user/dto/UserDTO';
+import { Employee } from './models/Employee';
+import { EmployeeRepository } from './employee.repository';
 
 @Injectable()
 export class EmployeeService {

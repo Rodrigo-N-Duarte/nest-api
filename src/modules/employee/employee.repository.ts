@@ -1,9 +1,9 @@
 import { DeleteResult, EntityRepository } from 'typeorm';
-import { User } from '../models/User';
+import { User } from '../user/models/User';
 import { Injectable } from '@nestjs/common';
-import { UpdateUserDTO } from '../models/dtos/userDTO';
-import { Boss } from '../models/Boss';
-import { Employee } from '../models/Employee';
+import { UpdateUserDTO } from '../user/dto/UserDTO';
+import { Boss } from '../boss/models/Boss';
+import { Employee } from './models/Employee';
 
 @EntityRepository(Employee)
 @Injectable()

@@ -4,12 +4,12 @@ import {
   Injectable,
   PipeTransform,
 } from '@nestjs/common';
-import { UserRole } from '../users/models/dtos/userDTO';
+import { UserRoleEnum } from '../modules/user/enums/UserRoleEnum';
 
 @Injectable()
-export class TypeUserPipe implements PipeTransform {
+export class UserRolePipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    if (!Object.values(UserRole).includes(value)) {
+    if (!Object.values(UserRoleEnum).includes(value)) {
       throw new BadRequestException(
         'Validation failed, the user type has to be an existent type',
       );

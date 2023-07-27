@@ -1,5 +1,5 @@
 import { Entity, OneToMany } from 'typeorm';
-import { User } from './User';
+import { User } from '../../user/models/User';
 import { Task } from '../../task/models/Task';
 
 @Entity()

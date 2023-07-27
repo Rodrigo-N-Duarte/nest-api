@@ -1,7 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Task } from '../task/models/Task';
-import { Employee } from '../users/models/Employee';
-import { Boss } from '../users/models/Boss';
+import { Entities } from './entities';
 
 export const TypeOrmDBConfig = TypeOrmModule.forRoot({
   type: 'mysql',
@@ -10,6 +8,6 @@ export const TypeOrmDBConfig = TypeOrmModule.forRoot({
   username: 'root',
   password: 'root',
   database: 'nest-api',
-  entities: [Task, Employee, Boss],
+  entities: Entities,
   synchronize: true,
 });
