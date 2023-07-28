@@ -13,47 +13,42 @@ import { UserRoleEnum } from './enums/UserRoleEnum';
 import { UserRolePipe } from '../../pipes/UserRolePipe';
 import { UserService } from './user.service';
 
-@Controller('user/:role')
+@Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
   @Post()
-  async create(
-    @Param('role') role: UserRoleEnum,
-    @Body() body: CreateUserDTO,
-  ): Promise<UserDTO> {
-    return await this.userService.getService(role).createUser(body);
+  async create(@Body() body: CreateUserDTO): Promise<UserDTO> {
+    return await this.userService.createUser(body);
   }
 
   @Get()
-  async findAll(
+  async findAll(): Promise<UserDTO[]> {
+    return await this.userService.findAll();
+  }
+
+  @Get('role/:role')
+  async findAllByRole(
     @Param('role', new UserRolePipe()) role: UserRoleEnum,
   ): Promise<UserDTO[]> {
-    return await this.userService.getService(role).findAll();
+    return await this.userService.findAll();
   }
 
   @Get(':id')
-  async findOne(
-    @Param('role', new UserRolePipe()) role: UserRoleEnum,
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<UserDTO> {
-    return await this.userService.getService(role).findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number): Promise<UserDTO> {
+    return await this.userService.findOne(id);
   }
 
   @Put(':id')
   async update(
-    @Param('role') role: UserRoleEnum,
     @Param('id', ParseIntPipe) id: number,
     @Body() body: UpdateUserDTO,
   ): Promise<UserDTO> {
-    return await this.userService.getService(role).update(id, body);
+    return await this.userService.update(id, body);
   }
 
   @Delete(':id')
-  async delete(
-    @Param('role') role: UserRoleEnum,
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<UserDTO> {
-    return await this.userService.getService(role).delete(id);
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<UserDTO> {
+    return await this.userService.delete(id);
   }
 }

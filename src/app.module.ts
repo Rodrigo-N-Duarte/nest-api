@@ -4,18 +4,11 @@ import { TypeOrmDBConfig } from './database/db.config';
 import { UserModule } from './modules/user/user.module';
 import { AuthMiddleware } from './middlewares/auth.middleware';
 import { TaskModule } from './modules/task/task.module';
-import { BossModule } from './modules/boss/boss.module';
-import { EmployeeModule } from './modules/employee/employee.module';
 import { TaskController } from './modules/task/task.controller';
+import { TaskUserModule } from './modules/task-user/task-user.module';
 
 @Module({
-  imports: [
-    TypeOrmDBConfig,
-    UserModule,
-    TaskModule,
-    BossModule,
-    EmployeeModule,
-  ],
+  imports: [TypeOrmDBConfig, UserModule, TaskModule, TaskUserModule],
 })
 export class AppModule implements NestModule {
   constructor(private dataSource: DataSource) {}

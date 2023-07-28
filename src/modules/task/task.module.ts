@@ -1,14 +1,17 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { TaskController } from './task.controller';
 import { TaskService } from './task.service';
 import { UserModule } from '../user/user.module';
 import { UserService } from '../user/user.service';
-import { EmployeeModule } from '../employee/employee.module';
-import { BossModule } from '../boss/boss.module';
+import { UserRepository } from '../user/user.repository';
+import { TaskUserService } from '../task-user/taskuser.service';
+import { TaskUserModule } from '../task-user/task-user.module';
+import { TaskRepository } from './task.repository';
 
 @Module({
-  imports: [UserModule, EmployeeModule, BossModule],
+  imports: [UserModule, forwardRef(() => TaskUserModule)],
   controllers: [TaskController],
-  providers: [TaskService, UserService],
+  providers: [TaskService, TaskRepository],
+  exports: [TaskService, TaskRepository],
 })
 export class TaskModule {}

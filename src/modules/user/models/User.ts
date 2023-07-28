@@ -1,6 +1,17 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserRoleEnum } from '../enums/UserRoleEnum';
+import { Task } from '../../task/models/Task';
+import { JoinColumn } from 'typeorm';
+import { TaskUser } from '../../task-user/models/TaskUser';
 
+@Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -10,5 +21,7 @@ export class User extends BaseEntity {
   email: string;
   @Column()
   password: string;
-  role: UserRoleEnum;
+  @OneToMany(() => Task, (task) => task.users)
+  @JoinColumn()
+  tasks: TaskUser[];
 }

@@ -1,16 +1,12 @@
-import { Module, forwardRef } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
-import { BossModule } from '../boss/boss.module';
 import { UserService } from './user.service';
-import { EmployeeService } from '../employee/employee.service';
-import { BossService } from '../boss/boss.service';
-import { EmployeeRepository } from '../employee/employee.repository';
-import { BossRepository } from '../boss/boss.repository';
-import { EmployeeModule } from '../employee/employee.module';
+import { UserRepository } from './user.repository';
 
 @Module({
-  imports: [EmployeeModule, BossModule],
+  imports: [],
   controllers: [UserController],
-  providers: [UserService, EmployeeService, BossService],
+  providers: [UserService, UserRepository],
+  exports: [UserService, UserRepository],
 })
 export class UserModule {}

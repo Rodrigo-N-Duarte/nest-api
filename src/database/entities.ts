@@ -1,5 +1,5 @@
 import { Task } from '../modules/task/models/Task';
-import { Employee } from '../modules/employee/models/Employee';
-import { Boss } from '../modules/boss/models/Boss';
+import { User } from '../modules/user/models/User';
+import { TaskUser } from '../modules/task-user/models/TaskUser';
 
-export const Entities = [Task, Employee, Boss];
+export const Entities = [Task, User, TaskUser];

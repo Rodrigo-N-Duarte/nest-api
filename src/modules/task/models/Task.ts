@@ -2,11 +2,15 @@ import {
   BaseEntity,
   Column,
   Entity,
+  JoinColumn,
+  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Boss } from '../../boss/models/Boss';
-import { Employee } from '../../employee/models/Employee';
+import { User } from '../../user/models/User';
+import { JoinTable } from 'typeorm';
+import { TaskUser } from '../../task-user/models/TaskUser';
 
 @Entity()
 export class Task extends BaseEntity {
@@ -20,8 +24,11 @@ export class Task extends BaseEntity {
   startDate: Date;
   @Column()
   endDate: Date;
-  @ManyToOne(() => Boss, (boss) => boss.tasks)
-  owner: Boss;
-  @ManyToOne(() => Employee, (employee) => employee.tasks)
-  employee: Employee;
+  @OneToMany(() => TaskUser, (taskUser) => taskUser.tasks, {
+    cascade: true,
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn()
+  users: TaskUser[];
 }

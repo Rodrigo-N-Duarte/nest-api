@@ -1,19 +1,21 @@
 import { Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Boss } from '../../boss/models/Boss';
-import { Employee } from '../../employee/models/Employee';
-import { IsString } from 'class-validator';
+import {
+  IsDate,
+  IsInt,
+  isNumber,
+  isNumberString,
+  IsString,
+} from 'class-validator';
 
 export abstract class CreateTaskDTO {
   @IsString()
   name: string;
   @IsString()
   description: string;
-  @Column()
+  @IsDate()
   startDate: Date;
-  @Column()
+  @IsDate()
   endDate: Date;
-  @ManyToOne(() => Boss, (boss) => boss.tasks)
-  owner: Boss;
-  @ManyToOne(() => Employee, (employee) => employee.tasks)
-  employee: Employee;
+  @IsInt()
+  idUser: number;
 }

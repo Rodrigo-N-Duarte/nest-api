@@ -1,8 +1,6 @@
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Exclude, Expose } from 'class-transformer';
 import { UserRoleEnum } from '../enums/UserRoleEnum';
-import { Employee } from '../../employee/models/Employee';
-import { Boss } from '../../boss/models/Boss';
 
 export abstract class CreateUserDTO {
   @IsNotEmpty()
@@ -14,8 +12,6 @@ export abstract class CreateUserDTO {
   @IsNotEmpty()
   @IsString()
   password: string;
-  @IsString()
-  role: UserRoleEnum;
 }
 
 export abstract class UpdateUserDTO {
@@ -28,8 +24,6 @@ export abstract class UpdateUserDTO {
   @IsOptional()
   @IsString()
   password: string;
-  @IsString()
-  role: UserRoleEnum;
 }
 
 export class UserDTO {
@@ -38,16 +32,8 @@ export class UserDTO {
   email: string;
   @Exclude()
   password: string;
-  @Expose()
-  role: UserRoleEnum;
 
   constructor(partial: Partial<UserDTO>) {
     Object.assign(this, partial);
-    if (partial instanceof Employee) {
-      this.role = UserRoleEnum.EMPLOYEE;
-    }
-    if (partial instanceof Boss) {
-      this.role = UserRoleEnum.BOSS;
-    }
   }
 }
