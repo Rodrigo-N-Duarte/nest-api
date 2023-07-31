@@ -21,7 +21,9 @@ export class User extends BaseEntity {
   email: string;
   @Column()
   password: string;
-  @OneToMany(() => Task, (task) => task.users)
+  @OneToMany(() => Task, (task) => task.users, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   tasks: TaskUser[];
 }

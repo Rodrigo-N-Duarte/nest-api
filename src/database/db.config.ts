@@ -1,13 +1,14 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Entities } from './entities';
 
+//// DEVELOPMENT
 export const TypeOrmDBConfig = TypeOrmModule.forRoot({
-  type: 'postgres',
-  host: 'pgsql',
-  port: 5432,
-  username: 'pguser',
-  password: 'pgpassword',
-  database: 'nestjs',
+  type: 'mysql',
+  host: '127.0.0.1',
+  port: 3307,
+  username: 'root',
+  password: 'root',
+  database: 'nest-api',
   entities: Entities,
   synchronize: true,
 });

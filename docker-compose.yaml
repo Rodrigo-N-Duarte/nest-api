@@ -1,33 +1,34 @@
 version: '3'
 
 services:
-  api:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - '3001:3001'
-    container_name: api
-    restart: always
-    volumes:
-      - api-logs:/usr/src/node-api/logs:rw
-    environment:
-      - NODE_ENV=development
-    depends_on:
-      - pgsql
+  #  api:
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    ports:
+  #      - '3001:3001'
+  #    container_name: api
+  #    restart: always
+  #    volumes:
+  #      - api-logs:/usr/src/node-api/logs:rw
+  #    environment:
+  #      - NODE_ENV=development
+  #    depends_on:
+  #      - mysql
 
-  pgsql:
-    image: postgres:alpine
-    ports:
-      - '5432:5432'
-    container_name: 'pgsql'
+  mysql:
+    image: mysql:latest
+    container_name: mysql
     restart: always
-    volumes:
-      - pg-data:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: pguser
-      POSTGRES_PASSWORD: pgpassword
-      POSTGRES_DB: nestjs
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nest-api
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - ./dados_mysql:/var/lib/mysql
+    ports:
+      - "3307:3306"
 
   adminer:
     image: adminer
