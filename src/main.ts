@@ -5,6 +5,10 @@ import {
   FastifyAdapter,
 } from '@nestjs/platform-fastify';
 import { ValidationPipe } from '@nestjs/common';
+import { UserService } from './modules/user/user.service';
+import { UserRepository } from './modules/user/user.repository';
+
+declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -20,7 +24,15 @@ async function bootstrap() {
       },
     }),
   );
-  await app.listen(3001);
+  const port = 3001;
+  await app.listen(port, '0.0.0.0');
+
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => app.close());
+  }
+
+  console.log(`Server running on port ${port}`);
 }
 
 bootstrap();

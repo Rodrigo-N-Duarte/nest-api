@@ -17,6 +17,9 @@ export class TaskUser extends BaseEntity {
   user: User;
   @ManyToOne(() => Task, (tasks) => tasks.users)
   tasks: Task;
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: UserRoleEnum,
+  })
   userRole: UserRoleEnum;
 }

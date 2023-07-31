@@ -23,7 +23,7 @@ export class UserController {
   }
 
   @Get()
-  async findAll(): Promise<UserDTO[]> {
+  async findAll() {
     return await this.userService.findAll();
   }
 
